@@ -28,6 +28,7 @@
     "@types/node": "^12.12.5",
     "jest": "^24.9.0",
     "nodemon": "^1.19.4",
+    "readme-md-generator": "^0.7.0",
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.2.1",
