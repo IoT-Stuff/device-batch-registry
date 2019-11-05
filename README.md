@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to iot-device-provisioner 👋</h1>
+<h1 align="center">Welcome to iot-device-provisioner</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://github.com/IoT-Stuff/iot-device-provisioner#readme" target="_blank">
@@ -8,7 +8,7 @@
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   </a>
   <a href="https://github.com/IoT-Stuff/iot-device-provisioner/blob/master/LICENSE" target="_blank">
-    <img alt="License: ISC" src="https://img.shields.io/github/license/IoT-Stuff/iot-device-provisioner" />
+    <img alt="License: MIT" src="https://img.shields.io/github/license/IoT-Stuff/iot-device-provisioner" />
   </a>
 </p>
 
@@ -28,6 +28,8 @@ npm run test
 
 ## Author
 
+👤 **Rodrigo de Souza <rsouza01@gmail.com>**
+
 * Website: async answers =>
     answers.authorGithubUsername !== projectInfos.githubUsername
       ? getAuthorWebsiteFromGithubAPI(answers.authorGithubUsername)
@@ -44,7 +46,8 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-This project is [ISC](https://github.com/IoT-Stuff/iot-device-provisioner/blob/master/LICENSE) licensed.
+Copyright © 2019 [Rodrigo de Souza <rsouza01@gmail.com>](https://github.com/IoT-Stuff).<br />
+This project is [MIT](https://github.com/IoT-Stuff/iot-device-provisioner/blob/master/LICENSE) licensed.
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

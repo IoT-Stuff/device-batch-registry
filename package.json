@@ -17,8 +17,8 @@
     "type": "git",
     "url": "git+https://github.com/IoT-Stuff/iot-device-provisioner.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Rodrigo de Souza <rsouza01@gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/IoT-Stuff/iot-device-provisioner/issues"
   },
