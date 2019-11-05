@@ -1,7 +1,7 @@
 
 export class Context {
 
-  private region: string;
+  public region: string;
   
   constructor (region: string) {
       this.region = region;
