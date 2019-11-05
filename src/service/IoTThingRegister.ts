@@ -12,22 +12,22 @@ export default class IoTRegister {
 
     }
 
-    public async registerThing(name: string) {
-        let promise = new Promise(async function(resolve, reject) {
+    public async registerThing(name: string) : Promise<any>{
+        let promise = new Promise<any>(async function(resolve, reject) {
     
             var params = {
-                thingName: 'name'
+                thingName: `IoT-PROV-${name}`
             };
             
             const iot = new AWS.Iot({apiVersion: '2015-05-28'});
-            await iot.createThing(params, function(err, data) {
-                if(err) {
-                    console.log(`Error creating thing - ${JSON.stringify(err)}`);
+            iot.createThing(params, function (err, data) {
+                if (err) {
+                    reject(false);
                 }
-                console.log(`AWS.createThing: ${JSON.stringify(data)}`);
+                resolve(data);
             });
         });
-
+        return promise;
     }
 }
   

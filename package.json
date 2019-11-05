@@ -26,6 +26,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.21",
     "@types/node": "^12.12.5",
+    "@types/uuid": "^3.4.6",
     "jest": "^24.9.0",
     "nodemon": "^1.19.4",
     "readme-md-generator": "^0.7.0",
