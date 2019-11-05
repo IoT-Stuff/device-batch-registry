@@ -15,17 +15,21 @@ app.get('/', async (req: Request, res: Response, next) => {
 
         const context = new Context('eu-central-1');
         const register = new IoTThingRegister(context);
-        
+
         console.log(context);
-        
+
         await register.registerThing(uuid())
             .then(registered => {
                 console.log(`AWS.createThing: ${JSON.stringify(registered)}`);
+
+
             })
             .catch(function(err) {
             console.log(`Error creating thing - ${JSON.stringify(err)}`);
         })
-        
+
+
+
         res.send({
             message: JSON.stringify(context),
         });
