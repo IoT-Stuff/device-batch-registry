@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 
+import Device from '../models/Device';
 import { Context } from '../provider/Context';
 
 export default class IoTRegister {
@@ -24,7 +25,7 @@ export default class IoTRegister {
                 if (err) {
                     reject(false);
                 }
-                resolve(data);
+                resolve(new Device(data.thingName, data.thingArn, data.thingId));
             });
         });
         return promise;
