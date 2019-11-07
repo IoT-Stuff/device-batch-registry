@@ -10,7 +10,7 @@ export default class DeviceTypeGroupRouter {
 
   public setRoutes() {
     this.app.route('/devicetype').post((req: Request, res: Response) => {
-      const body = {};
+      const body = req.body;
       return res.status(200).send(body);
     });
   }
