@@ -6,7 +6,8 @@ describe('app', () => {
         request = supertest(app);
     });
     
-    it('should return a successful response for GET /', done => {
-        request.get('/').expect(200, done);
+    it('should return a successful response for POST /', done => {
+        request.post('/devicegroup')
+            .expect(200, done);
     });
 });

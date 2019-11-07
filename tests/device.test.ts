@@ -7,6 +7,7 @@ describe('app', () => {
     });
     
     it('should return a successful response for GET /', done => {
-        request.get('/').expect(200, done);
+        request.post('/device')
+            .expect(200, done);
     });
 });

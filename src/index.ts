@@ -1,16 +1,41 @@
 import * as express from "express";
+import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
+
 import { v4 as uuid } from "uuid";
 import { Request, Response } from "express";
 import { Context } from "./provider/Context";
 
+
 import IoTThingRegister from "./service/IoTRegister";
-import DeviceGroup from "./models/DeviceGroup";
+import DeviceRouter from "./routes/device.router";
+import DeviceGroupRouter from "./routes/devicegroup.router";
+import DeviceTypeGroupRouter from "./routes/devicetype.router";
+
 
 const app = express();
 
 const { PORT = 3000 } = process.env;
 
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(cors());
+
+const deviceRouter =  new DeviceRouter(app);
+const deviceGroupRouter =  new DeviceGroupRouter(app);
+const deviceTypeRouter =  new DeviceTypeGroupRouter(app);
+
+deviceRouter.setRoutes();
+deviceGroupRouter.setRoutes();
+deviceTypeRouter.setRoutes();
+
 app.get("/", async (req: Request, res: Response, next) => {
+    res.send({
+        message: 'RESULT'
+      });
+});
+
+app.get("/boilerplate", async (req: Request, res: Response, next) => {
   const context = new Context("eu-central-1");
   const register = new IoTThingRegister(context);
 
