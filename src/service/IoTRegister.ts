@@ -16,7 +16,7 @@ export default class IoTRegister {
         this.iotGateway = new AWS.Iot({apiVersion: this.context.apiVersion});
     }
 
-    public async registerThingGroup(name: string, description: string): Promise<any> {
+    public async registerDeviceGroup(name: string, description: string): Promise<any> {
         const thisObject = this;
 
         let promise = new Promise<any>(async function (resolve, reject) {
@@ -40,7 +40,7 @@ export default class IoTRegister {
         return promise;
     }
 
-    public async registerThingType(name: string, description: string): Promise<any> {
+    public async registerDeviceType(name: string, description: string): Promise<any> {
         const thisObject = this;
 
         let promise = new Promise<any>(async function (resolve, reject) {
@@ -64,23 +64,47 @@ export default class IoTRegister {
         return promise;
     }
 
-    public async registerThing(name: string, thingGroup?: any): Promise<any> {
+    public async registerDevice(name: string, deviceType?: DeviceType, deviceGroup?: DeviceGroup): Promise<any> {
 
         const thisObject = this;
 
         let promise = new Promise<any>(async function (resolve, reject) {
 
             const params = {
-                thingName: `IoT-PROV-${name}`
+                thingName: `IoT-PROV-${name}`,
+                thingTypeName: deviceType ? deviceType.name : undefined
             };
 
             thisObject.iotGateway.createThing(params, function (err, data) {
                 if (err) {
                     reject(false);
                 }
+                let addedToGroup = false;
+                if(deviceGroup) {
+                    const addThingToGroupParams =  {
+                        thingGroupName: deviceGroup.thingGroupName,
+                        thingGroupArn: deviceGroup.thingGroupArn,
+                        thingName: data.thingName,
+                        thingArn: data.thingArn,
+                        overrideDynamicGroups: deviceGroup.overrideDynamicGroups
+                      }
+                    
+                    thisObject.iotGateway.addThingToThingGroup(addThingToGroupParams, 
+                        function (err, data) {
+                            if (err) { reject(false); }
 
-                thisObject.iotGateway.addThingToThingGroup(thingGroup)
-                resolve(new Device(data.thingName, data.thingArn, data.thingId));
+                            addedToGroup = true;
+                            resolve(true);
+                    });
+                }
+
+                resolve(
+                    new Device(
+                        data.thingName, 
+                        data.thingArn, 
+                        data.thingId, 
+                        addedToGroup ? deviceGroup : undefined)
+                );
             });
         });
         return promise;
