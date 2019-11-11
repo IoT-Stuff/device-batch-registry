@@ -8,10 +8,10 @@ import { Context } from "./provider/Context";
 
 
 import IoTThingRegister from "./service/IoTRegister";
-import DeviceRouter from "./routes/device.router";
-import DeviceGroupRouter from "./routes/devicegroup.router";
-import DeviceTypeGroupRouter from "./routes/devicetype.router";
 
+import * as device from './handlers/device'
+import * as devicegroup from './handlers/devicegroup'
+import * as devicetype from './handlers/devicetype'
 
 const app = express();
 
@@ -21,13 +21,10 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors());
 
-const deviceRouter =  new DeviceRouter(app);
-const deviceGroupRouter =  new DeviceGroupRouter(app);
-const deviceTypeRouter =  new DeviceTypeGroupRouter(app);
+device.registerRoutes(app);
+devicegroup.registerRoutes(app);
+devicetype.registerRoutes(app);
 
-deviceRouter.setRoutes();
-deviceGroupRouter.setRoutes();
-deviceTypeRouter.setRoutes();
 
 app.get("/", async (req: Request, res: Response, next) => {
     res.send({
