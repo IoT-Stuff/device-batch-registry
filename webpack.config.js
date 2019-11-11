@@ -23,7 +23,7 @@ module.exports = {
         new WebpackShellPlugin({
             onBuildEnd: ['yarn run:dev']
         })
-    ]
+    ],
     module: {
         rules: [
             {

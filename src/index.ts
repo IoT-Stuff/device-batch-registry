@@ -9,9 +9,7 @@ import { Context } from "./provider/Context";
 
 import IoTThingRegister from "./service/IoTRegister";
 
-import * as device from './handlers/device'
-import * as devicegroup from './handlers/devicegroup'
-import * as devicetype from './handlers/devicetype'
+import * as handlers from './handlers'
 
 const app = express();
 
@@ -21,10 +19,9 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors());
 
-device.registerRoutes(app);
-devicegroup.registerRoutes(app);
-devicetype.registerRoutes(app);
-
+const context = new Context("eu-central-1");
+  
+handlers.registerRoutes(app, context);
 
 app.get("/", async (req: Request, res: Response, next) => {
     res.send({

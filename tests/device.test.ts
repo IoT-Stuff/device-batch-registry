@@ -1,16 +1,29 @@
 import app from '../src/index';
 import * as supertest from 'supertest';
-import * as HttpStatus  from 'http-status-codes';
+import * as HttpStatus from 'http-status-codes';
 
 describe('Device endpoints', () => {
     let request;
     beforeEach(() => {
         request = supertest(app);
     });
-    
+
     it('should return a successful response for POST /', done => {
-        request.post('/device')
-            .expect(HttpStatus.NOT_IMPLEMENTED, done);
+
+        const payload = {
+            name: 'device_name_1'
+        };
+
+        const returnPayload = {
+            name: 'device_name_1'
+        };
+
+        request
+            .post('/device')
+            .send(payload)
+            .set('Accept', 'application/json')
+            .set('Content-Type', 'application/json')
+            .expect(HttpStatus.CREATED, returnPayload, done);
     });
 
     it('should return a successful response for GET /', done => {
@@ -24,3 +37,4 @@ describe('Device endpoints', () => {
     });
 
 });
+
