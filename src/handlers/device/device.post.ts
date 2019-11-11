@@ -4,9 +4,10 @@ import DeviceEngine from '../../engines/DeviceEngine';
 import { Context } from '../../provider/Context';
 
 
-export function main(req: Request, res: Response, context: Context) {
+export async function main(req: Request, res: Response, context: Context) {
 
   const engine = new DeviceEngine(context);
+  const ret = await engine.registerDevice(req.body.name);
 
-  return res.status(HttpStatus.CREATED).send(req.body);
+  return res.status(HttpStatus.CREATED).send(ret);
 }

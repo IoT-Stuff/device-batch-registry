@@ -10,17 +10,17 @@ describe('DeviceTGroup Endpoints', () => {
         request = supertest(app);
     });
 
-    it('should return a successful response for POST /', done => {
+    test('should return a successful response for POST /', done => {
         request.post('/devicegroup')
             .expect(HttpStatus.NOT_IMPLEMENTED, done);
     });
 
-    it('should return a successful response for GET /', done => {
+    test('should return a successful response for GET /', done => {
         request.get('/devicegroup')
             .expect(HttpStatus.NOT_IMPLEMENTED, done);
     });
 
-    it('should return a successful response for LIST-GET /', done => {
+    test('should return a successful response for LIST-GET /', done => {
         request.get('/devicesgroup')
             .expect(HttpStatus.NOT_IMPLEMENTED, done);
     });

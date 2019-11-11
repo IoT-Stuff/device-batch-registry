@@ -1,14 +1,15 @@
-import app from '../src/index';
+import * as HttpStatus from 'http-status-codes';
 import * as supertest from 'supertest';
-import * as HttpStatus  from 'http-status-codes';
 
-describe.only('DeviceType', () => {
+import app from '../src/index';
+
+describe('DeviceType', () => {
     let request;
     beforeEach(() => {
         request = supertest(app);
     });
     
-    it('should return a successful response for POST /', done => {
+    test('should return a successful response for POST /', done => {
         const payload = {
             deviceTypeName: 'device-type-name',
             deviceTypeDescription: 'device-type-description',
@@ -27,12 +28,12 @@ describe.only('DeviceType', () => {
             .expect(HttpStatus.CREATED,  returnPayload, done);            
     });
 
-    it('should return a successful response for GET /', done => {
+    test('should return a successful response for GET /', done => {
         request.get('/devicetype')
             .expect(HttpStatus.NOT_IMPLEMENTED, done);
     });
 
-    it('should return a successful response for LIST-GET /', done => {
+    test('should return a successful response for LIST-GET /', done => {
         request.get('/devicestype')
             .expect(HttpStatus.NOT_IMPLEMENTED, done);
     });
