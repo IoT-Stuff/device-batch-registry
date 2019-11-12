@@ -10,7 +10,9 @@
     "build": "webpack",
     "start:dev": "NODE_ENV=development webpack",
     "run:dev": "NODE_ENV=development nodemon build/index.js",
-    "test": "clear; jest",
+    "test": "clear; npm run test:e2e; npm run test:unit",
+    "test:e2e": "jest",
+    "test:unit": "npx mocha './tests/unit/**/*.test.ts'",
     "testw": "LOGENABLED=true LOGLEVEL=error jest --watch",
     "coverage": "jest --coverage"
   },
@@ -30,6 +32,7 @@
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^3.4.6",
     "jest": "^24.9.0",
+    "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
     "readme-md-generator": "^0.7.0",
     "supertest": "^4.0.2",
