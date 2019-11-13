@@ -12,24 +12,23 @@ export default class IoTRegister {
     constructor(context: Context) {
         this.context = context;
         AWS.config.update({ region: this.context.region });
-        this.iotGateway = new AWS.Iot({apiVersion: this.context.apiVersion});
+        this.iotGateway = new AWS.Iot({ apiVersion: this.context.apiVersion });
     }
 
     public async registerDeviceGroup(name: string, description: string): Promise<any> {
         const thisObject = this;
 
-        let promise = new Promise<any>(async function (resolve, reject) {
-
+        const promise = new Promise<any>(async function(resolve, reject) {
             const params = {
                 thingGroupName: `IoT-PROV-${name}`,
-                thingGroupProperties: {thingGroupDescription: description},
+                thingGroupProperties: { thingGroupDescription: description },
                 tags: [
-                    {Key: 'ORG', Value: 'rsouza01'},
-                    {Key: 'CREATOR', Value: 'rsouza01@gmail.com'}
-                ]
+                    { Key: 'ORG', Value: 'rsouza01' },
+                    { Key: 'CREATOR', Value: 'rsouza01@gmail.com' },
+                ],
             };
 
-            thisObject.iotGateway.createThingGroup(params, function (err, data) {
+            thisObject.iotGateway.createThingGroup(params, function(err, data) {
                 if (err) {
                     reject(false);
                 }
@@ -42,18 +41,17 @@ export default class IoTRegister {
     public async registerDeviceType(name: string, description: string): Promise<any> {
         const thisObject = this;
 
-        let promise = new Promise<any>(async function (resolve, reject) {
-
+        const promise = new Promise<any>(async function(resolve, reject) {
             const params = {
                 thingTypeName: `IoT-PROV-${name}`,
-                thingTypeProperties: {thingTypeDescription: description},
+                thingTypeProperties: { thingTypeDescription: description },
                 tags: [
-                    {Key: 'ORG', Value: 'rsouza01'},
-                    {Key: 'CREATOR', Value: 'rsouza01@gmail.com'}
-                ]
+                    { Key: 'ORG', Value: 'rsouza01' },
+                    { Key: 'CREATOR', Value: 'rsouza01@gmail.com' },
+                ],
             };
 
-            thisObject.iotGateway.createThingType(params, function (err, data) {
+            thisObject.iotGateway.createThingType(params, function(err, data) {
                 if (err) {
                     reject(false);
                 }
@@ -64,45 +62,40 @@ export default class IoTRegister {
     }
 
     public async registerDevice(name: string, deviceType?: DeviceType, deviceGroup?: DeviceGroup): Promise<any> {
-
         const thisObject = this;
 
-        let promise = new Promise<any>(async function (resolve, reject) {
-
+        const promise = new Promise<any>(async function(resolve, reject) {
             const params = {
                 thingName: `IoT-PROV-${name}`,
-                thingTypeName: deviceType ? deviceType.name : undefined
+                thingTypeName: deviceType ? deviceType.name : undefined,
             };
 
-            thisObject.iotGateway.createThing(params, function (err, data) {
+            thisObject.iotGateway.createThing(params, function(err, data) {
                 if (err) {
                     reject(false);
                 }
                 let addedToGroup = false;
-                if(deviceGroup) {
-                    const addThingToGroupParams =  {
+                if (deviceGroup) {
+                    const addThingToGroupParams = {
                         thingGroupName: deviceGroup.thingGroupName,
                         thingGroupArn: deviceGroup.thingGroupArn,
                         thingName: data.thingName,
                         thingArn: data.thingArn,
-                        overrideDynamicGroups: deviceGroup.overrideDynamicGroups
-                      }
-                    
-                    thisObject.iotGateway.addThingToThingGroup(addThingToGroupParams, 
-                        function (err, data) {
-                            if (err) { reject(false); }
+                        overrideDynamicGroups: deviceGroup.overrideDynamicGroups,
+                    };
 
-                            addedToGroup = true;
-                            resolve(true);
+                    thisObject.iotGateway.addThingToThingGroup(addThingToGroupParams, function(err, data) {
+                        if (err) {
+                            reject(false);
+                        }
+
+                        addedToGroup = true;
+                        resolve(true);
                     });
                 }
 
                 resolve(
-                    new Device(
-                        data.thingName, 
-                        data.thingArn, 
-                        data.thingId, 
-                        addedToGroup ? deviceGroup : undefined)
+                    new Device(data.thingName, data.thingArn, data.thingId, addedToGroup ? deviceGroup : undefined),
                 );
             });
         });
@@ -110,18 +103,16 @@ export default class IoTRegister {
     }
 
     public async createKeysAndCertificate(device: Device): Promise<any> {
-
         const thisObject = this;
 
-        let promise = new Promise<any>(async function (resolve, reject) {
-
+        const promise = new Promise<any>(async function(resolve, reject) {
             const params = {
-                thingName: `IoT-PROV-${name}`
+                thingName: `IoT-PROV-${name}`,
             };
             //console.log(`iotGateway : ${JSON.stringify(thisObject.iotGateway)}`);
 
             //const iot = new AWS.Iot({apiVersion: '2015-05-28'});
-            thisObject.iotGateway.createThing(params, function (err, data) {
+            thisObject.iotGateway.createThing(params, function(err, data) {
                 if (err) {
                     reject(false);
                 }

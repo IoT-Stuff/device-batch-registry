@@ -6,7 +6,7 @@ import * as devicetype from './devicetype';
 import { Context } from '../provider/Context';
 
 export function registerRoutes(app: Application, context: Context) {
-  device.registerRoutes(app, context);
-  devicegroup.registerRoutes(app, context);
-  devicetype.registerRoutes(app, context);
+    device.registerRoutes(app, context);
+    devicegroup.registerRoutes(app, context);
+    devicetype.registerRoutes(app, context);
 }

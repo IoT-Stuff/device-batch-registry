@@ -5,33 +5,30 @@ import DeviceType from '../models/DeviceType';
 import DeviceGroup from '../models/DeviceGroup';
 
 export default class DeviceEngine {
-
     private context: Context;
 
     private iotGateway: AWS.Iot;
 
     constructor(context: Context) {
         this.context = context;
-        
-        AWS.config.update({ 
-            region: this.context.region 
+
+        AWS.config.update({
+            region: this.context.region,
         });
 
         this.iotGateway = new AWS.Iot({ apiVersion: this.context.apiVersion });
     }
 
     public async registerDevice(name: string, deviceType?: DeviceType, deviceGroup?: DeviceGroup): Promise<any> {
-
         const thisObject = this;
 
-        let promise = new Promise<any>(async function (resolve, reject) {
-
+        const promise = new Promise<any>(async function(resolve, reject) {
             const params = {
                 thingName: `IoT-PROV-${name}`,
-                thingTypeName: deviceType ? deviceType.name : undefined
+                thingTypeName: deviceType ? deviceType.name : undefined,
             };
 
-            thisObject.iotGateway.createThing(params, function (err, data) {
+            thisObject.iotGateway.createThing(params, function(err, data) {
                 if (err) {
                     reject(false);
                 }
@@ -42,24 +39,21 @@ export default class DeviceEngine {
                         thingGroupArn: deviceGroup.thingGroupArn,
                         thingName: data.thingName,
                         thingArn: data.thingArn,
-                        overrideDynamicGroups: deviceGroup.overrideDynamicGroups
-                    }
+                        overrideDynamicGroups: deviceGroup.overrideDynamicGroups,
+                    };
 
-                    thisObject.iotGateway.addThingToThingGroup(addThingToGroupParams,
-                        function (err, data) {
-                            if (err) { reject(false); }
+                    thisObject.iotGateway.addThingToThingGroup(addThingToGroupParams, function(err, data) {
+                        if (err) {
+                            reject(false);
+                        }
 
-                            addedToGroup = true;
-                            resolve(true);
-                        });
+                        addedToGroup = true;
+                        resolve(true);
+                    });
                 }
 
                 resolve(
-                    new Device(
-                        data.thingName,
-                        data.thingArn,
-                        data.thingId,
-                        addedToGroup ? deviceGroup : undefined)
+                    new Device(data.thingName, data.thingArn, data.thingId, addedToGroup ? deviceGroup : undefined),
                 );
             });
         });
