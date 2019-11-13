@@ -1,8 +1,8 @@
 import * as AWS from 'aws-sdk';
 import Device from '../models/Device';
 import { Context } from '../provider/Context';
-import DeviceType from "../models/DeviceType";
-import DeviceGroup from "../models/DeviceGroup";
+import DeviceType from '../models/DeviceType';
+import DeviceGroup from '../models/DeviceGroup';
 
 export default class DeviceEngine {
 

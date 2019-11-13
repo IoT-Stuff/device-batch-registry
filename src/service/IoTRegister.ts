@@ -1,18 +1,17 @@
 import * as AWS from 'aws-sdk';
 import Device from '../models/Device';
-import {Context} from '../provider/Context';
-import DeviceType from "../models/DeviceType";
-import DeviceGroup from "../models/DeviceGroup";
+import { Context } from '../provider/Context';
+import DeviceType from '../models/DeviceType';
+import DeviceGroup from '../models/DeviceGroup';
 
 export default class IoTRegister {
-
     private context: Context;
 
     private iotGateway: AWS.Iot;
 
     constructor(context: Context) {
         this.context = context;
-        AWS.config.update({region: this.context.region});
+        AWS.config.update({ region: this.context.region });
         this.iotGateway = new AWS.Iot({apiVersion: this.context.apiVersion});
     }
 
