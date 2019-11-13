@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "eslint": "eslint src/**/*.ts",
+    "eslint:run": "eslint src/**/*.ts",
+    "eslint:fix": "eslint src/**/*.ts --fix",
     "build": "webpack",
     "start:dev": "NODE_ENV=development webpack",
     "run:dev": "NODE_ENV=development nodemon build/index.js",
@@ -15,7 +16,8 @@
     "test:e2e": "jest",
     "test:unit": "npx mocha './tests/unit/**/*.test.ts'",
     "testw": "LOGENABLED=true LOGLEVEL=error jest --watch",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "clean": "rm -rf node_modules/ reports/ .serverless/ .webpack/ .build/ ./coverage"
   },
   "repository": {
     "type": "git",
@@ -28,12 +30,15 @@
   },
   "homepage": "https://github.com/IoT-Stuff/iot-device-provisioner#readme",
   "devDependencies": {
+    "@types/chai": "^4.2.5",
     "@types/jest": "^24.0.21",
     "@types/node": "^12.12.5",
+    "@types/sinon": "^7.5.0",
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^3.4.6",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
+    "chai": "^4.2.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
@@ -42,6 +47,7 @@
     "nodemon": "^1.19.4",
     "prettier": "^1.19.1",
     "readme-md-generator": "^0.7.0",
+    "sinon": "^7.5.0",
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.2.1",

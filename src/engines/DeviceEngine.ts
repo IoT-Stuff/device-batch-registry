@@ -1,4 +1,4 @@
-import * as AWS from 'aws-sdk';
+import * as AWS from "aws-sdk";
 import Device from '../models/Device';
 import { Context } from '../provider/Context';
 import DeviceType from '../models/DeviceType';
