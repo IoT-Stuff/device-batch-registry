@@ -22,7 +22,7 @@ export default class DeviceEngine {
     public async registerDevice(name: string, deviceType?: DeviceType, deviceGroup?: DeviceGroup): Promise<any> {
         const thisObject = this;
 
-        const promise = new Promise<any>(async function(resolve, reject) {
+        return new Promise<any>(async function(resolve, reject) {
             const params = {
                 thingName: `IoT-PROV-${name}`,
                 thingTypeName: deviceType ? deviceType.name : undefined,
@@ -43,20 +43,23 @@ export default class DeviceEngine {
                     };
 
                     thisObject.iotGateway.addThingToThingGroup(addThingToGroupParams, function(err, data) {
+
                         if (err) {
                             reject(false);
                         }
 
                         addedToGroup = true;
-                        resolve(true);
                     });
                 }
-
                 resolve(
-                    new Device(data.thingName, data.thingArn, data.thingId, addedToGroup ? deviceGroup : undefined),
+                    new Device(
+                        data.thingId, 
+                        data.thingName, 
+                        data.thingArn, 
+                        deviceType ? deviceType.name : undefined, 
+                        addedToGroup ? deviceGroup : undefined),
                 );
             });
         });
-        return promise;
     }
 }
