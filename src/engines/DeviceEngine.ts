@@ -22,16 +22,22 @@ export default class DeviceEngine {
     public async registerDevice(name: string, deviceType?: DeviceType, deviceGroup?: DeviceGroup): Promise<Device> {
         const thisObject = this;
 
-        return new Promise<any>(async function(resolve, reject) {
+        return new Promise<Device>(async function(resolve, reject) {
             const params = {
                 thingName: `IoT-PROV-${name}`,
                 thingTypeName: deviceType ? deviceType.name : undefined,
             };
-
+            console.log('1');
+            
             thisObject.iotGateway.createThing(params, function(err, data) {
+                console.log('2');
+
                 if (err) {
                     reject(undefined);
                 }
+
+                console.log('3');
+
                 let addedToGroup = false;
                 if (deviceGroup) {
                     const addThingToGroupParams = {
@@ -51,6 +57,9 @@ export default class DeviceEngine {
                         addedToGroup = true;
                     });
                 }
+                console.log('4');
+                console.log('DATA: ', data);
+
                 resolve(
                     new Device(
                         data.thingId, 

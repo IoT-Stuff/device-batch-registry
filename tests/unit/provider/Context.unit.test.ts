@@ -1,12 +1,8 @@
 import { describe, before, after, it } from 'mocha';
 import * as chai from 'chai';
-import * as chaiAsPromised from 'chai-as-promised';
+import chaiAsPromised from 'chai-as-promised';
 
 import { Context } from '../../../src/provider/Context';
-import Device from '../../../src/models/Device';
-import DeviceEngine from '../../../src/engines/DeviceEngine';
-import DeviceGroup from '../../../src/models/DeviceGroup';
-import DeviceType from '../../../src/models/DeviceType';
 
 
 chai.use(chaiAsPromised);

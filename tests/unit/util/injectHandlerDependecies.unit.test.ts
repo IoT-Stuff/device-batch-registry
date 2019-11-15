@@ -1,6 +1,6 @@
 import { describe, before, after, it } from 'mocha';
 import * as chai from 'chai';
-import * as chaiAsPromised from 'chai-as-promised';
+import chaiAsPromised from 'chai-as-promised';
 
 import { Context } from '../../../src/provider/Context';
 import injectHandlerDependencies from '../../../src/util/injectHandlerDependecies';
