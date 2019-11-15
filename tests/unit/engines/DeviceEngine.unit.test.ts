@@ -123,10 +123,10 @@ describe('DeviceEngine', function () {
 
         deviceEngine.registerDevice('INVALID-DEVICE-NAME')
         .then(() => {
-            expect(true).to.be.false;
+            expect(true).to.be.undefined;
         })
         .catch((err) => {
-            expect(err).to.be.false;
+            expect(err).to.be.undefined;
         })
     });
 
@@ -145,7 +145,7 @@ describe('DeviceEngine', function () {
             expect(true).to.be.false;
         })
         .catch((err) => {
-            expect(err).to.be.false;
+            expect(err).to.be.undefined;
         })
     });
 

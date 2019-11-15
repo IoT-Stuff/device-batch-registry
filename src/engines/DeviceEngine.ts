@@ -19,7 +19,7 @@ export default class DeviceEngine {
         this.iotGateway = new AWS.Iot({ apiVersion: this.context.apiVersion });
     }
 
-    public async registerDevice(name: string, deviceType?: DeviceType, deviceGroup?: DeviceGroup): Promise<any> {
+    public async registerDevice(name: string, deviceType?: DeviceType, deviceGroup?: DeviceGroup): Promise<Device> {
         const thisObject = this;
 
         return new Promise<any>(async function(resolve, reject) {
@@ -30,7 +30,7 @@ export default class DeviceEngine {
 
             thisObject.iotGateway.createThing(params, function(err, data) {
                 if (err) {
-                    reject(false);
+                    reject(undefined);
                 }
                 let addedToGroup = false;
                 if (deviceGroup) {
@@ -45,7 +45,7 @@ export default class DeviceEngine {
                     thisObject.iotGateway.addThingToThingGroup(addThingToGroupParams, function(err, data) {
 
                         if (err) {
-                            reject(false);
+                            reject(undefined);
                         }
 
                         addedToGroup = true;
