@@ -1,5 +1,22 @@
 {
   "compilerOptions": {
-    "sourceMap": true
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2018",
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "typeRoots": [
+      "../node_modules/@types"
+    ],
   }
 }
