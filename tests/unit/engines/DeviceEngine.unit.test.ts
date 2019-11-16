@@ -12,15 +12,18 @@ import DeviceType from '../../../src/models/DeviceType';
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-var AWS = require('aws-sdk-mock');
+const AWSMock = require('aws-sdk-mock');
+
+//const AWS = require('aws-sdk-mock');
+const AWS = require('aws-sdk');
+
+AWSMock.setSDKInstance(AWS);
 
 describe.only('DeviceEngine', function () {
 
     const context = new Context("eu-central-1");
 
     before(function () {
-
-        console.log('>>>>>>>>>>>> BEFORE ');
 
         const device = {
             thingName: 'ThingName',
@@ -29,17 +32,15 @@ describe.only('DeviceEngine', function () {
             deviceTypeName: 'deviceTypeName'
         }
 
-        AWS.mock('Iot', 'createThing', function (params, callback) {
-            console.log('>>>>>>>>>>>> params => ', params);
-
+        AWSMock.mock('Iot', 'createThing', function (params, callback) {
+            console.log('Iot.createThing.params => ', params);
             if (params.thingName === 'IoT-PROV-INVALID-DEVICE-NAME')
                 callback({}, 'Invalid device name');
 
             callback(null, device);
         });
 
-        AWS.mock('Iot', 'addThingToThingGroup', function (params, callback) {
-            console.log('params => ', params);
+        AWSMock.mock('Iot', 'addThingToThingGroup', function (params, callback) {
             if (params.thingGroupName === 'VALID-DEVICE-NAME-INVALID-GROUP-NAME')
                 callback({}, 'Invalid group name');
 
@@ -50,7 +51,7 @@ describe.only('DeviceEngine', function () {
     });
 
     after(() => {
-        AWS.restore();
+        AWSMock.restore();
     });
 
     it('should instantiate a DeviceEngine object', async () => {

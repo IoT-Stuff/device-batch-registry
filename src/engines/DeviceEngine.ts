@@ -27,16 +27,12 @@ export default class DeviceEngine {
                 thingName: `IoT-PROV-${name}`,
                 thingTypeName: deviceType ? deviceType.name : undefined,
             };
-            console.log('1');
-            
-            thisObject.iotGateway.createThing(params, function(err, data) {
-                console.log('2');
 
+            thisObject.iotGateway.createThing(params, function(err, data) {
                 if (err) {
                     reject(undefined);
+                    return;
                 }
-
-                console.log('3');
 
                 let addedToGroup = false;
                 if (deviceGroup) {
@@ -52,13 +48,12 @@ export default class DeviceEngine {
 
                         if (err) {
                             reject(undefined);
+                            return;
                         }
 
                         addedToGroup = true;
                     });
                 }
-                console.log('4');
-                console.log('DATA: ', data);
 
                 resolve(
                     new Device(
