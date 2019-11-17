@@ -1,14 +1,17 @@
 import * as AWS from "aws-sdk";
 import Device from '../models/Device';
+import IotWrapper from '../iot/IotWrapper';
 import { Context } from '../provider/Context';
 import DeviceType from '../models/DeviceType';
 import DeviceGroup from '../models/DeviceGroup';
+import AWSIotWrapper from "../iot/AWSIotWrapper";
 
 export default class DeviceEngine {
     private context: Context;
 
-    private iotGateway: AWS.Iot;
-
+    //private iotGateway: AWS.Iot;
+    private iotGateway: IotWrapper;
+    
     constructor(context: Context) {
         this.context = context;
 
@@ -16,7 +19,9 @@ export default class DeviceEngine {
             region: this.context.region,
         });
 
-        this.iotGateway = new AWS.Iot({ apiVersion: this.context.apiVersion });
+        //this.iotGateway = new AWS.Iot({ apiVersion: this.context.apiVersion });
+        this.iotGateway = new AWSIotWrapper();
+
     }
 
     public async registerDevice(name: string, deviceType?: DeviceType, deviceGroup?: DeviceGroup): Promise<Device> {
@@ -28,41 +33,24 @@ export default class DeviceEngine {
                 thingTypeName: deviceType ? deviceType.name : undefined,
             };
 
-            thisObject.iotGateway.createThing(params, function(err, data) {
-                if (err) {
-                    reject(undefined);
-                    return;
-                }
-
-                let addedToGroup = false;
+            thisObject.iotGateway.createDevice(`IoT-PROV-${name}`,  deviceType ? deviceType.name : undefined)
+            .then(device => {
                 if (deviceGroup) {
-                    const addThingToGroupParams = {
-                        thingGroupName: deviceGroup.thingGroupName,
-                        thingGroupArn: deviceGroup.thingGroupArn,
-                        thingName: data.thingName,
-                        thingArn: data.thingArn,
-                        overrideDynamicGroups: deviceGroup.overrideDynamicGroups,
-                    };
+                    thisObject.iotGateway.addThingToThingGroup(device, deviceGroup)
+                    .then(deviceWithGroup => {
 
-                    thisObject.iotGateway.addThingToThingGroup(addThingToGroupParams, function(err, data) {
-
-                        if (err) {
-                            reject(undefined);
-                            return;
-                        }
-
-                        addedToGroup = true;
+                    })
+                    .catch(err => {
+                        reject(undefined);
+                        return;
                     });
                 }
-
-                resolve(
-                    new Device(
-                        data.thingId, 
-                        data.thingName, 
-                        data.thingArn, 
-                        deviceType ? deviceType.name : undefined, 
-                        addedToGroup ? deviceGroup : undefined),
-                );
+                resolve(device);
+                return;
+            })
+            .catch(err => {
+                reject(undefined);
+                return;
             });
         });
     }
