@@ -14,7 +14,6 @@ const expect = chai.expect;
 
 const AWSMock = require('aws-sdk-mock');
 
-//const AWS = require('aws-sdk-mock');
 const AWS = require('aws-sdk');
 
 AWSMock.setSDKInstance(AWS);
@@ -33,7 +32,6 @@ describe.only('DeviceEngine', function () {
         }
 
         AWSMock.mock('Iot', 'createThing', function (params, callback) {
-            console.log('Iot.createThing.params => ', params);
             if (params.thingName === 'IoT-PROV-INVALID-DEVICE-NAME')
                 callback({}, 'Invalid device name');
 
@@ -67,7 +65,7 @@ describe.only('DeviceEngine', function () {
         expect(device.name).to.be.equal('IoT-PROV-ThingName');
     });
 
-    it.only('should create a device with a device type', async () => {
+    it('should create a device with a device type', async () => {
 
         const deviceType: DeviceType = {
             id: 'deviceTypeId',

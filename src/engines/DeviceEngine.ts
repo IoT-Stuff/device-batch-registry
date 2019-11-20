@@ -28,25 +28,22 @@ export default class DeviceEngine {
         const thisObject = this;
 
         return new Promise<Device>(async function(resolve, reject) {
-            const params = {
-                thingName: `IoT-PROV-${name}`,
-                thingTypeName: deviceType ? deviceType.name : undefined,
-            };
-
             thisObject.iotGateway.createDevice(`IoT-PROV-${name}`,  deviceType ? deviceType.name : undefined)
             .then(device => {
                 if (deviceGroup) {
                     thisObject.iotGateway.addThingToThingGroup(device, deviceGroup)
                     .then(deviceWithGroup => {
-
+                        resolve(deviceWithGroup);
+                        return;
                     })
                     .catch(err => {
                         reject(undefined);
                         return;
                     });
+                } else {
+                    resolve(device);
+                    return;
                 }
-                resolve(device);
-                return;
             })
             .catch(err => {
                 reject(undefined);
