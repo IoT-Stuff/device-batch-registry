@@ -8,11 +8,9 @@ import AWSIotWrapper from "../iot/AWSIotWrapper";
 
 export default class DeviceEngine {
     private context: Context;
-
-    //private iotGateway: AWS.Iot;
     private iotGateway: IotWrapper;
     
-    constructor(context: Context) {
+    constructor(context: Context, iotWrapper?:  IotWrapper) {
         this.context = context;
 
         AWS.config.update({
@@ -20,8 +18,7 @@ export default class DeviceEngine {
         });
 
         //this.iotGateway = new AWS.Iot({ apiVersion: this.context.apiVersion });
-        this.iotGateway = new AWSIotWrapper();
-
+        this.iotGateway = iotWrapper || new AWSIotWrapper();
     }
 
     public async registerDevice(name: string, deviceType?: DeviceType, deviceGroup?: DeviceGroup): Promise<Device> {

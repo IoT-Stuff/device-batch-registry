@@ -7,6 +7,8 @@ import Device from '../../../src/models/Device';
 import DeviceEngine from '../../../src/engines/DeviceEngine';
 import DeviceGroup from '../../../src/models/DeviceGroup';
 import DeviceType from '../../../src/models/DeviceType';
+import IotWrapper from '../../../src/iot/IotWrapper';
+import AWSIotWrapper from '../../../src/iot/AWSIotWrapper';
 
 
 chai.use(chaiAsPromised);
@@ -58,7 +60,9 @@ describe.only('DeviceEngine', function () {
     });
 
     it('should create a device', async () => {
-        const deviceEngine = new DeviceEngine(context);
+        const iotWrapper: IotWrapper = new AWSIotWrapper();
+
+        const deviceEngine = new DeviceEngine(context, iotWrapper);
         const device: Device = await deviceEngine.registerDevice('ThingName');
 
         expect(device).not.to.be.undefined;
